@@ -11,7 +11,7 @@ function makeGalleryMarkup(galleryItems) {
   			<a classs="gallery__link" href="${original}">
 				<img class="gallery__image" 
 				src="${preview}" 
-				alt="${description}"/>
+				alt="${description}" />
 			</a>
 			</li>
 	`;
@@ -25,6 +25,7 @@ const galleryRef = document.querySelector(".gallery");
 // 2. Добавляем в код HTML, разметку для элементов галереи.
 galleryRef.insertAdjacentHTML("afterbegin", makeGalleryMarkup(galleryItems));
 
+// 3. Добавляем слушатель события и вызов конструктора модального окна
 galleryRef.addEventListener("click", (event) => {
   event.preventDefault();
   const evt = event.target;
@@ -32,15 +33,15 @@ galleryRef.addEventListener("click", (event) => {
   if (!evt.classList.contains("gallery__image")) {
     return;
   } else {
-    evt.setAttribute("src", evt.dataset.source);
-    return modalShowGalleryItems(evt);
+    return modalShowGalleryItems();
   }
 });
-function modalShowGalleryItems(image) {
-  const { src, alt } = image;
+
+// 4. Функция-конструктор из библиотеки SimpleLightBox
+function modalShowGalleryItems() {
   var lightbox = new SimpleLightbox(".gallery a", {
-    /* options */
+    captionsData: "alt",
+    captionPosition: "bottom",
+    captionDelay: 250,
   });
 }
-
-console.log(galleryItems);
